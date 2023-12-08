@@ -1,5 +1,5 @@
 ---
-name: Checks
+name: Tests and Linting
 
 on: [push]
 
