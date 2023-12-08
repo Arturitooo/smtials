@@ -19,5 +19,3 @@ jobs:
         run: docker-compose run --rm backend sh -c "python manage.py test"
       - name: Linting
         run: docker-compose run --rm backend sh -c "flake8"
-
-one
