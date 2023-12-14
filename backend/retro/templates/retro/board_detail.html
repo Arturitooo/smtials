@@ -1,0 +1,10 @@
+{% block content %}
+  <h2>{{ board.name }} - Board Detail</h2>
+
+  <form method="post" action="{% url 'board_detail' unique_address=unique_address %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit Ticket</button>
+  </form>
+
+{% endblock %}
