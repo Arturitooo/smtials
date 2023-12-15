@@ -24,9 +24,9 @@ class RetrospectiveBoard(models.Model):
 
 class RetroTicket(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    board = models.ForeignKey('RetrospectiveBoard', on_delete=models.CASCADE)
-    ticket_type = models.CharField(max_length=35)
+    board = models.ForeignKey(RetrospectiveBoard, on_delete=models.CASCADE)
+    ticket_type = models.CharField(max_length=50)  # "Good", "Bad", "Action Points", etc.
     content = models.TextField()
 
     def __str__(self):
-        return f'{self.board.name} - {self.ticket_type} - {self.content}'
+        return f"{self.board.name} - {self.ticket_type} - {self.content}"
