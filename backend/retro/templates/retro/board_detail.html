@@ -1,10 +1,11 @@
 {% block content %}
   <h2>{{ board.name }}</h2>
+  {% for form in forms %}
   <form method="post" action="">
     {% csrf_token %}
-    {% for form in forms %}
-      {{ form.as_p }}
-    {% endfor %}
+    {{ form.labels }}
+    {{ form }}
     <button type="submit">Submit</button>
   </form>
+  {% endfor %}
 {% endblock %}
