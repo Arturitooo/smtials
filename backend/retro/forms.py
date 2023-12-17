@@ -1,28 +1,14 @@
 # retro/forms.py
 from django import forms
 from django.forms.models import modelform_factory
-from .models import BOARD_FIELDS, RetrospectiveBoard, RetroTicket
-
-class RetrospectiveBoardForm(forms.ModelForm):
-    last_retrospective_board = forms.ModelChoiceField(
-        queryset=RetrospectiveBoard.objects.none(),
-        required=False,
-        label='Last Retrospective Board',
-        widget=forms.Select(attrs={'class': 'form-control'})
-    )
-    class Meta:
-        model = RetrospectiveBoard
-        fields = ['name', 'variant', 'last_retrospective_board']
-
-    def __init__(self, user, *args, **kwargs):
-        super(RetrospectiveBoardForm, self).__init__(*args, **kwargs)
-        self.fields['last_retrospective_board'].queryset = RetrospectiveBoard.objects.filter(owner=user).order_by('-created_at')
+from .models import BOARD_FIELDS, RetroTicket
 
 class RetroTicketForm(forms.ModelForm):
     ticket_type = forms.CharField(widget=forms.HiddenInput(), required=False)  # Hidden field for ticket_type
     class Meta:
         model = RetroTicket
         fields = ['content', 'ticket_type']
+
 
 def get_ticket_forms(variant):
     ticket_forms = []

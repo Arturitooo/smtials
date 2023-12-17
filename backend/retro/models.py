@@ -16,7 +16,6 @@ class RetrospectiveBoard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     variant = models.CharField(max_length=50, choices=[(variant[0], variant[0]) for variant in BOARD_FIELDS])
-    created_at = models.DateTimeField(auto_now_add=True)
     last_retrospective_board = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='next_boards')
 
     def __str__(self):
@@ -30,3 +29,4 @@ class RetroTicket(models.Model):
 
     def __str__(self):
         return f"{self.board.name} - {self.ticket_type} - {self.content}"
+        
