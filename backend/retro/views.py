@@ -23,7 +23,33 @@ class RetrospectiveBoardViewSet(viewsets.ModelViewSet):
         return RetrospectiveBoard.objects.filter(owner=self.request.user)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        new_board = serializer.save(owner=self.request.user)
+
+        # Copy Action Point RetroTickets from the last retrospective board
+        last_board = new_board.copy_ap_from
+        if last_board:
+            action_point_tickets = RetroTicket.objects.filter(board=last_board, ticket_type='Action Points')
+            for ticket in action_point_tickets:
+                RetroTicket.objects.create(
+                    author=ticket.author,
+                    board=new_board,
+                    ticket_type=ticket.ticket_type,
+                    content=ticket.content,
+                    is_copied=True,
+                )
+    
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Check if the user making the request is the owner of the board
+        if request.user != instance.owner:
+            return Response(
+                {"detail": "You do not have permission to delete this board."},
+                status=status.HTTP_403_FORBIDDEN
+            )
+
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 class RetroTicketViewSet(viewsets.ModelViewSet):
     queryset = RetroTicket.objects.all()

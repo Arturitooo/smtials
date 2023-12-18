@@ -12,15 +12,15 @@ class RetrospectiveBoardSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
-        # Dynamically set the queryset for last_retrospective_board based on the current user
+        # Dynamically set the queryset for copy_ap_from based on the current user
         user = self.context['request'].user
-        self.fields['last_retrospective_board'].queryset = RetrospectiveBoard.objects.filter(owner=user)
+        self.fields['copy_ap_from'].queryset = RetrospectiveBoard.objects.filter(owner=user)
 
 class RetroTicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = RetroTicket
-        fields = ['author', 'board', 'ticket_type', 'content']
-        read_only_fields = ['author']
+        fields = ['author', 'board', 'ticket_type', 'content', 'is_copied']
+        read_only_fields = ['author', 'is_copied']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

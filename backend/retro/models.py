@@ -16,7 +16,7 @@ class RetrospectiveBoard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     variant = models.CharField(max_length=50, choices=[(variant[0], variant[0]) for variant in BOARD_FIELDS])
-    last_retrospective_board = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='next_boards')
+    copy_ap_from = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='next_boards')
 
     def __str__(self):
         return f"{self.name}"
@@ -26,6 +26,7 @@ class RetroTicket(models.Model):
     board = models.ForeignKey(RetrospectiveBoard, on_delete=models.CASCADE)
     ticket_type = models.CharField(max_length=50)
     content = models.TextField()
+    is_copied = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.board.name} - {self.ticket_type} - {self.content}"
