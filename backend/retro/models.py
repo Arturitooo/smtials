@@ -30,7 +30,7 @@ class RetrospectiveBoard(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     variant = models.CharField(max_length=50, choices=[(variant[0], variant[0]) for variant in BOARD_FIELDS])
-    copy_ap_from = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='next_boards')
+    copy_ap_from = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='next_boards', default=None)
     warmup_activity = models.CharField(max_length=150, choices=WARMUP_CHOICES, blank=True, null=True)
 
     def __str__(self):
