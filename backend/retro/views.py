@@ -54,6 +54,8 @@ class RetrospectiveBoardViewSet(viewsets.ModelViewSet):
 class RetroTicketViewSet(viewsets.ModelViewSet):
     queryset = RetroTicket.objects.all()
     serializer_class = RetroTicketSerializer
+    
+    # TO DO - LIST OF TICKETS ONLY FROM SPECIFIC BOARD
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
